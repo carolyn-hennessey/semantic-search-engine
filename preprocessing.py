@@ -1,6 +1,3 @@
-from langchain_text_splitters import RecursiveCharacterTextSplitter
-from transformers import AutoTokenizer
-
 EMBEDDING_MODEL_NAME = "thenlper/gte-small"
 
 # load dataset
@@ -12,6 +9,8 @@ def load_text():
     return text
 
 def generate_chunks(text):
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+
     splitter = RecursiveCharacterTextSplitter(
         chunk_size=1000,      # Max characters per chunk
         chunk_overlap=200,    # Overlap to preserve context between chunks
@@ -25,6 +24,8 @@ def generate_chunks(text):
 
 # Not required by Chromadb by default
 def generate_embeddings(chunks):
+    from transformers import AutoTokenizer
+
     tokenizer = AutoTokenizer.from_pretrained(EMBEDDING_MODEL_NAME)
     embeddings = [tokenizer.encode(chunk) for chunk in chunks]
 

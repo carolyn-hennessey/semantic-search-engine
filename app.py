@@ -1,7 +1,4 @@
 import streamlit as st
-from transformers import pipeline
-
-from preprocessing import generate_chunks, load_chroma, load_text
 
 LLM_MODEL_NAME = "HuggingFaceTB/SmolLM2-360M-Instruct"
 
@@ -20,39 +17,40 @@ st.markdown(
     .block-container { padding-top: 6rem; padding-bottom: 6rem; max-width: 720px; }
 
     h1 {
-        color: #FF6B6B;
+        color: #B3203F;
         text-align: center;
         font-size: 3.2rem !important;
         margin-bottom: 0.5rem;
     }
     .subtitle {
         text-align: center;
-        color: #4ECDC4;
+        color: #0B6E69;
         font-size: 1.5rem;
         margin-bottom: 4rem;
     }
-    label p { color: #7B61FF; font-size: 1.4rem !important; }
+    label p { color: #4B2FC4; font-size: 1.4rem !important; }
 
     .stTextInput input {
         background: #FFF3B0;
-        border: 3px solid #FFB703 !important;
+        border: 3px solid #A84B00 !important;
         border-radius: 18px;
         font-size: 1.4rem;
         padding: 0.9rem 1rem;
-        color: #333;
+        color: #1A1A1A;
     }
+    .stTextInput input::placeholder { color: #595959; opacity: 1; }
     .answer-box {
         margin-top: 4rem;
         padding: 2rem;
         min-height: 12rem;
         background: #E0F7F4;
-        border: 3px dashed #4ECDC4;
+        border: 3px dashed #0B6E69;
         border-radius: 24px;
         font-size: 1.4rem;
         line-height: 1.6;
-        color: #333;
+        color: #1A1A1A;
     }
-    .answer-box.empty { color: #9aa; text-align: center; padding-top: 4rem; }
+    .answer-box.empty { color: #3F4A55; text-align: center; padding-top: 4rem; }
     </style>
     """,
     unsafe_allow_html=True,
@@ -62,12 +60,17 @@ st.markdown(
 # ---------- Resources (loaded once) ----------
 @st.cache_resource(show_spinner="Getting the books ready... 📚")
 def get_collection():
+    # Lazy import: preprocessing pulls in transformers/langchain, which are slow to load
+    from preprocessing import generate_chunks, load_chroma, load_text
+
     chunks = generate_chunks(load_text())
     return load_chroma(chunks)
 
 
 @st.cache_resource(show_spinner="Waking up the little robot... 🤖")
 def get_llm():
+    from transformers import pipeline  # lazy import: heavy (pulls in torch)
+
     return pipeline("text-generation", model=LLM_MODEL_NAME)
 
 
