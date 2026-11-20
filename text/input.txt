@@ -1,0 +1,151 @@
+A detailed analysis of these microservices principles is indicated below, taking into account that the principles presented by Martin Fowler will be taken as a pivot:
+
+Componentization via services
+
+This principle was formulated by Fowler et al. [2] and can be mapped with the principle of Newman et al. [36] which indicates “Hide Internal Implementation Details”, and with Parnas [17] “Allow modules to be reassembled and replaced without reassembly of the whole system” which refers to creating small microservices and that by their design, these microservices are independently deployable and exposed in such a way that they are like a black box, without the need to know what language or technology they are created with.
+
+Organized around business capabilities
+
+This principle was formulated by Fowler et al. [2] and can be mapped with the principle of Newman et al. [36] Model Around Business Concepts, and Parnas “Allow one module to be written with little knowledge”. It refers to the fact that the modular division of microservices should be based on business capabilities and not on technical layers such as presentation, business, and data access layers.
+
+Decentralized governance
+
+This principle [2] is related to “Decentralize All the Things” [36] and refers to the fact that microservices must be autonomous, with autonomous work teams, where each team is responsible for the group of microservices that correspond to a product. You can have a shared governance model that can serve as a reference for different members of the work teams.
+
+Infrastructure automation
+
+This principle [2] is related to “Adopt a Culture of Automation” proposed by Newman et al. [36] and refers to using DevOps tools to automate the merge of the source code, thus having Continuous Integration in an automated way, as well as using tools for continuous Deployment for test, pre-production and production environments with which it can be reached to a Continuous Delivery, getting to release new versions in an automated, controlled and frequent way. Automated testing should also include automated functional and technical testing.
+
+Design for failure
+
+Design for Failure [2] relates to the “Isolate Failure” proposed by Newman et al. [36]. It refers to the fact that given the design of a microservice to work independently and autonomously, in the event of a failure, only this microservice will not be available from the entire swarm, the rest of the microservices being able to continue their operation, thus having tolerance to failures. By incorporating mechanisms such as microservices deployments in containers such as Docker, monitoring tools such as Grafanam Heapster, Prometheus can be had, with which it can be automated that in the event of a microservice crash, through configurations, the fallen microservices can be automatically raised.
+
+Products not projects
+
+Products not Projects [2]. It refers to creating multifunctional teams (full-stack developers) with a wide range of skills that not only build the software but also do the testing, deployment, monitoring, and solve application issues in a productive environment. An example of a monolithic organization and another that works with microservices can be seen in Figure 14.
+
+Smart endpoints and dumb pipes
+
+Smart Endpoints and Dumb Pipes [2] refers to avoiding creating microservices that are too heavy, since a microservice has to do data transformation, message routing, and possibly apply business rules, being a recommendation, that communication mechanisms be light using HTTP messaging with REST.
+
+Decentralized data management
+
+Decentralized Data Management [2]. This principle matches the principle “Hide Internal Implementation Details [36] proposed by Newman et al. [36], and also by Parnas [17]. It refers to the fact that each microservice must manage or administer its own data, which is to say, that in the design of a microservice, it must connect to its own database or storage. This makes a great difference with a monolithic architecture, where there is a single database repository for the entire application. Figure 4 shows an example of monolithic architecture and microservice architecture, where it can be seen that each microservice has a database repository.
+
+Evolutionary design
+
+Evolutionary Design [2] refers to the fact that given the design of a microservice that is autonomous and independent, its evolution can also occur independently or, if required, a microservice can be replaced by a new implementation without affecting service to consumers. It also refers to the fact that if a microservice is no longer used, it can be safely terminated.
+
+Independently deployable
+
+Independently Deployable [2] refers to the fact that due to any change either due to code maintenance or evolution of a microservice, this microservice is capable of being deployed independently, without affecting other microservices and without affecting the entire application. Likewise, mechanisms with Docker Swarm allow new versions to be created as instances, while old versions of microservices live until they finish serving requests.
+
+Highly observable
+
+Reference architecture of microservices indicates that there must be monitoring tools, so in the design of a microservices architecture, it must be decided which monitoring tools can be used; there are various tools on the market such as Prometheus, Spigo, Heapser, Grafana, Trace, Sensu.
+
+In “Strong Module Boundaries”, Martin Fowler [2] indicates that microservices reinforce doing work in a modular way, which is essential when working with large development teams. On the other hand, Newman [36] emphasizes the fact that having small development teams that work on specific microservices tend to be more productive, managing to better align with what the organization needs, which helps us minimize the number of people working in a particular code reaching the sweet spot of team size and productivity in an organization. In Managerial, Parnas [17] refers to being able to manage development teams that work on specific modules independently, and that over time these developers acquire more expertise and at the same time become more autonomous in the work they do.
+
+For “Technology Diversity”, Fowler [2] states that each microservice is an independently deployable unit, having the freedom to code a microservice in different programming languages or use any databases, allowing the developer team to choose the most suitable tool, language, and libraries to solve specific problems. Newman [36] also agrees on this benefit, since having a system made up of multiple collaborative microservices, you have the flexibility of being able to decide to use different technologies for each one according to the work they are going to do, instead of having to select a more standardized approach. For example, if an application of the social network type, the interactions of the users can be stored in a graph-oriented database to reflect the highly interconnected nature of a social graph, and for the publications that users would be stored in a document-oriented data warehouse, resulting in a heterogeneous architecture. For Comprehensibility Parnas [17], the benefit is to be able to study a system module by module without having to understand the whole system from the beginning as it can be a complex task. This can benefit that a development team may be specialized to maintain or add new functionality in a specific module. Also, understand each module and create a microservice for each business logic in any programming language.
+
+Independent Deployment [2] means that microservices, being modular and simple, are easier to implement, and since they are autonomous, they are less likely to cause system-wide failures. In microservices, deployment is carried out in an agile way, relying on continuous delivery, reducing the time between the cycle between an idea and the running software, with the benefit that organizations can respond quickly to market changes and introduce new features faster than your competition. On the other hand, Newman [36] indicates that a change in a line of code in a monolithic application necessarily implies releasing a new complete version of the application, having a high impact and risk, but with microservices, a change can be made in a single service and deployed independently from the rest of the system, should a problem occur, this individual service can be quickly isolated, making fast rollback easy to achieve. It also means that new functionality can be delivered to customers faster, which is why many organizations such as Amazon and Netflix have chosen to use these architectures. Identifying reusable microservices allows them to be reused by different consumers, for example, web applications, desktop applications, mobile applications. In the case of resilience, by configuring monitoring tools, if one microservice fails, the rest of the system can continue to function. In contrast, in a monolithic system, if one service fails, everything stops working. Regarding scalability, since microservices are small, it allows scaling only those services that are most in-demand, being able to optimize the use of hardware. Finally, since microservices are small, the cost of replacing them with a better implementation or eliminating them is much easier. Development teams using microservices approaches are more comfortable with either completely rewriting a microservice or simply removing it when it is no longer needed, and the cost of replacing it is quite small. Correlating with what Parnas indicates [17], it refers to having the flexibility of being able to make changes in a specific module without causing it to affect other modules. After the analysis presented, the first research question is answered Are there principles that support the decomposition of monolithic applications towards microservices?, We confirmed that principles were found that lead to the decomposition of microservices and the decomposition of architectures in general.
+
+On the one hand, David Parnas, is based on the principles: “Allow modules to be reassembled and replaced without reassembling the whole system” and “Allow one module to be written with little knowledge”. On the other hand, Martin Fowler proposes nine principles: Componentization via Services, Organized around Business Capabilities, Products not Projects, Smart endpoints and dumb pipes, Decentralized Governance, Decentralized Data Management, Infrastructure Automation, Design for failure, Evolutionary Design. Finally, Sam Newman proposes seven principles: Model Around Business Concepts, Adopt a Culture of Automation, Hide Internal Implementation Details, Decentralize All the Things, Independently Deployable, Isolate Failure, Highly Observable.
+
+It was possible to show that the principles proposed by Fowler and Newman are correlated with the decomposition proposed by David Parnas when he introduced the Principle of Information Hiding. At the same time, there is a correlation between the principles proposed by Fowler and Newman.
+
+The principle proposed by Parnas “Allow modules to be reassembled and replaced without reassembly of the whole system” correlates with Fowler’s principle “Componentization via Services” and Newman’s “Hide Internal Implementation Details”, refers to creating small and that by design, these microservices are independently and easy to replace, they are exposed in such a way that there is no need to know what technology they are created with.
+
+Another correlation exists between the principle proposed by Parnas “Allow one module to be written with little knowledge”, the principle “Organized around Business Capabilities” proposed by Fowler, and the principle “Model Around Business Concepts” indicated by Newman. This principle refers to creating microservices-based on business capabilities, which leads us to create small microservices that fulfill a single functionality.
+
+Between Fowler and Newman, we find the following correlations. On the one hand, Fowler proposes “Decentralized Governance” while Newman is more radical and proposes “Decentralize All the Things”. These principles refer to the fact that when it comes to creating microservices, the hierarchical structure of an organization must be changed, where responsibility is transferred to work teams. These work teams in turn become autonomous, and each team is responsible for a group of microservices, which over time generates advantages such as experience in the business functionality of the microservices created.
+
+On the other hand, Fowler proposes “Infrastructure Automation” while Newman indicates “Adopt a Culture of Automation”. Both authors refer to using DevOps tools to automate the compilation, deployment, and delivery of software. In addition, it is recommended to use tools to monitor the correct execution of the microservices. In the event of a microservice crash, a new one can be automatically created again.
+
+The last correlation between the principles proposed by Fowler and Newman is that Fowler proposes “Design for Failure” and Newman “Isolate Failure” and refers to that when a microservice is designed, it is considered to have loose coupling, of such that it works independently. In the event of a failure, only this microservice will not be available, and there will be no impact on the entire system.
+
+The purpose of this survey is to evaluate the principles indicated by experts in microservices such as Martin Fowler, Sam Newman and contrast them with what David Parnas indicates. However, to mention some other renowned microservices experts we have Chris Richardson, who authored the book Microservices Patterns, that serves as a practical guide for designing, implementing, and deploying microservices-based systems [37]. Adrian Cockcroft is another prominent figure in the software industry, particularly known for his advocacy and promotion of microservices architecture, who played a significant role in popularizing and advancing the adoption of microservices, especially during his tenure at Netflix, he was instrumental in transforming the company’s monolithic architecture into a highly scalable and resilient microservices-based architecture. He emphasizes the importance of building loosely coupled and independently deployable services that align with the organization’s business domains [41]. Another expert is Eberhard Wolff, who write the book Microservices: Flexible Software Architecture, that provides valuable insights and practical guidance for designing, implementing, and maintaining microservices-based systems, introducing the fundamentals of microservices architecture and explaining the motivations behind adopting this architectural style, emphasizing in the benefits of scalability, flexibility, and autonomy that microservices offer compared to traditional monolithic architectures [42].
+
+
+
+Advantages and Disadvantages of Monoliths and Microservices
+Monolithic applications, having all their components together and are easy to develop. However, as new functionality is added, their degree of coupling increases and becomes complex, making them more challenging to maintain since any change, no matter how small it is, involves the deployment of the entire application. Microservices have emerged as a new alternative to handle monolithic application problems. Microservices consist of decomposing a monolithic application into various small services that are responsible for business functionality. It could be said that microservice architecture is an evolution of SOA (Service Oriented Architecture) since each microservice can evolve independently, which benefits since any change in a microservice does not affect the other microservices. However, there is complexity when adopting this new microservices architecture, such as the difficulty of understanding the business logic of a legacy application for the migration to microservices and exist a lack of reporting of migration experience, which makes it necessary to carry out this process be challenging. Here are a number of advantages and disadvantages of a monolithic and microservices architecture.
+
+A. Advantages With Monoliths
+It cannot be said that an application with monolithic architecture is bad. Instead, experts recommend sticking with this architecture if the application is small [43]. Next, we are going to expose a series of advantages that a monolith application has.
+
+1) Application as a Single Block
+When a monolithic application is small, its development and deployment are simpler because it is treated as a single block. In addition, a developer can track source code end-to-end more quickly, which is useful when working in small development teams. Monitoring can be a simpler task [27].
+
+2) Ease of Code Reuse
+Another advantage is being able to reuse a specific part of the code; only a portion is copied within the monolith application, having control over the changes made, which is simpler than making changes in distributed systems where it could affect other consumers [27].
+
+B. Advantages With Microservices
+Through the literature review carried out, many advantages are found when using a microservices architecture; below, a list of the advantages found with their explanation is exposed.
+
+1) Always Online
+When releasing new versions of a microservices, it is not necessary to decommission the entire system or restart the service by having a good architecture of microservices, deployed in containers and by using DevOps with Continuous Integration and Continuous Delivery/Deployment can be carried out hot, in such a way that new requests from new clients will automatically call the new microservices, while the existing microservices that are running when their requests end or reach zero will disappear (shutdown) [44]. Likewise, in case of failures, only the specific microservice will be affected, not the entire system, so the rest of the modules can continue working without problem [1]. Instead of using virtual machines, using containers to place microservices has excellent advantages, such as scaling them when there is more demand for specific microservices. Docker is the most popular platform used by many companies to create containers and deploy our microservices, to have efficiency and speed of provisioning, and together with other tools, it is possible to obtain metrics of the health of the microservices. A challenge is for companies to train their employees so that they can automate most processes with DevOps tools to perform, for example, Continuous Integration, Continuous Deployment, shortening development, testing, and delivery times to different environments such as pre-production and production [36].
+
+2) Changes Without Affecting Other Components
+Since a microservice is a small component that can run independently, it is easy to maintain it, while in case of a bug, it is easier to navigate through the source code, find the bug and fix it, thus facilitating its maintainability, as well as ease of releasing new versions [1].
+
+3) Audit and Monitoring
+Having individual microservices allows us to place security on specific microservices so that they can be audited, monitored. Making changes to specific microservices to incorporate security mechanisms makes it possible to optimize costs [36].
+
+4) Ease of Functional Testing and Error Identification
+Because microservices are independent, they do not impact each other when they are built with a good microservices architecture. This means that if one part fails, the entire application does not crash [45]. In addition to using DevOps practices, they have focused on improving resilience through automated testing. By making tests part of the build process, tests are constantly run against code uploaded to a repository, increasing the chances of finding and fixing bugs in the code. Some attempts to improve resilience are to deploy new versions in a small group of users and, if everything goes well for a period of time, the new version is deployed to all users; otherwise, it will return to the previous version until the problems are resolved.
+
+5) Self-Managed Teams
+Separating a monolith application into microservices brings us advantages such as creating work teams that take one or more microservices and take charge of them (take full ownership), which gives us benefits such as modifications or evolution of microservices independently and autonomously, work teams can be in different geographic locations and can work independently on these microservices. Having small rather than large work teams also brings advantages such as faster and more frequent development and delivery times because work teams specialize in knowing in detail a specific business functionality that they are implementing in microservices and with each iteration development, deepen their knowledge further, in addition to the experience acquired, these small work teams can give more accurate development estimates, in addition to being able to perform faster developments [36]. Continuous integration tools bring us advantages such as obtaining metrics on how the quality of our code is, shortening delivery times, merging our code with the rest of the development team’s code in a controlled way, having version control, traceability of the artifacts delivered [36].
+
+A microservice being independent, the software development team can develop a specific microservice in another programming language to take advantage of algorithms or libraries that are incorporated, thus having other alternatives to innovate, optimize costs and development times.
+
+A microservices architecture supports project managers, architects, and programmers to correctly build microservices, have the proper guidelines, carry out a correct design, coding [1]. The key is to have small and independent services [2]
+
+C. Disadvantages With Monoliths
+Several disadvantages related to a monolithic architecture have been identified, such as operating costs, complexity and scalability costs, difficulty incorporating modern technologies or using outdated technology, difficulty in hiring adequate personnel to maintain these monolithic applications. Below we expose the disadvantages found in more detail.
+
+1) High Maintenance Cost
+A problem with monolithic applications is the excessive cost of source code maintenance, especially when an application is large and complex. In monolithic systems, given their design, it can be challenging to maintain. It is difficult to identify an error in monolith applications, correct it, and publish the solution in a test and production environment.
+
+Among the disadvantages identified is how difficult it is to maintain a monolith, since, being a single block, in case an internal component is modified and a failure occurs in this maintenance process, the entire monolith application can reach fail, you also have the problem of introducing new functionality at the same time you can incorporate new errors (bugs), and at the same time, it is required to test all the functionality of the application again [46]. Any change in a module in the monolith application requires a complete restart of the application, which requires time to perform the deployment of the updated version of the application [1].
+
+2) Scalability
+Another drawback is in the scalability of a monolithic application, since while it can be scaled through virtual servers and a load balancer, this demands more hardware and software resources, licensing costs, and time, therefore an alternative to using containers with microservices is a good alternative [47]. The disadvantage of a monolith application is that, for example, if a module is the most used, it is not possible to scale only this module, but the entire monolith must be scaled, consequently increasing costs [1].
+
+The scalability in applications at the physical or virtual server level with technology can be done in two ways:
+
+Via WebGarden
+
+Via WebFarm
+
+For example, in web applications with Microsoft technologies, which are deployed in the Internet Information Server (IIS), the webserver and its application configuration files can be configured so that several processes of the same application are created. This is known as WebGarden or horizontal scaling. An example of this is shown in Figure 11.
+
+Another alternative is to deploy a web application on a virtual or physical server farm. In order to have high availability, a load balancer can be configured so that the application is always available at all times. This scaling is known as Web Farm or vertical scaling. An example of how this scheme works is indicated in the following Figure 12.
+
+Finally, given the technological advances, a current trend is scalability using containers with Docker technology, as shown in the following Figure 13.
+
+This scheme has the advantage that new instances of the monolith application can be created in a matter of seconds. In addition to having advantages of an application in a container, given that by the nature of a container, it is immutable, isolated, and does not depend on any configuration of the operating system. The use of containers brings multiple advantages such as provisioning in seconds, automated service monitoring and restoration, version updates in seconds, all these using container management tools that exist in the market. The disadvantage of scaling a monolith is that the entire monolith application is scaled, regardless of when only a part of the functionality is the most used.
+
+3) LOK-IN Language
+Another drawback of monolithic applications is that they are generally locked (lock-in) to be programmed with a single programming language [1] while the flexibility of microservices is that each microservice can be programmed with a different programming language [2]. However, in large software factories, despite having this flexibility of each microservice, program it in any programming language, due to standardization, training for programmers, learning curve, for ease of maintenance to correct errors or add new functionality, it is recommended to standardize and use a single programming language in the development of large and complex software [1].
+
+D. Disadvantage With Microservices
+When creating an application under the microservices architecture, a drawback is the high learning curve of this new architecture, which goes hand in hand with an organizational change to form autonomous teams that create the new microservices, possibly in a new programming language already while using new tools to automate compilation, deployment, and monitoring, and there is a high possibility that training will be needed to understand how to deploy containerized microservices to cloud computing. However, once this learning curve is overcome, developing microservices will be much faster than working in a monolithic application.
+
+1) Lack of Experience From the Development Team
+Another disadvantage is that an organization when it begins the incorporation of a new architecture, such as microservices, does not know if they will be successful due to factors such as the limited experience of the development team in working with this new architecture, where for example Buchgeher et al. [10] in a Case Study indicates that the migration of a project took eight months to overcome the learning curve to work with microservices. For a small company it is easier to organize and form work teams based on products, not roles, while in large organizations due to the size of their development team and the silos that are formed between areas and their billing scheme for their services provided organizational change is more complex.
+
+2) Network Overhead
+Microservices are characterized by making more calls to implemented functions, causing communication delays between microservices and network overheads, which leads to analyzing the network architecture and possibly implementing changes at the architecture level. Additionally, optimizations should be considered at the programming level to be able to make asynchronous calls, parallel processing to balance the network overheads.
+
+The increase in microservices, even though they are in containers, can lead to an increase in infrastructure given the rise in the number of microservices, which is costly to maintain.
+
+3) Data Duplication
+Since a microservices architecture recommends that each microservice have its own database, it will be necessary to duplicate data in the different new databases created, which will require additional programming mechanisms to guarantee the consistency of the data, increasing the complexity due to some services will be more difficult to orchestrate, given the increasing number of microservices [48]. New services should be developed as compensatory (reverse) mechanisms since the use of a distributed transaction system is not recommended.
+
+Since each microservice isolates unique business functionality, testing an entire application increases complexity, and it will take longer to find and fix bugs with the new microservices architecture. Working with microservices without automation would be a severe mistake, so using DevOps tools to automate code integration, compilation, and deployments is mandatory.
+
+4) Increase in Complexity
+Having many microservices and consuming them from a Front End when trying to identify an error through traceability can be complex and require many hours of searching for the bug, which is why it can also be expensive [6], [45].
+
